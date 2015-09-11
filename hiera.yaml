@@ -1,0 +1,9 @@
+:backends:
+    - yaml
+:hierarchy:
+    - hosts/%{::fqdn}
+    - domains/%{::domain}
+    - locations/%{::location}
+    - defaults
+:yaml:
+   :datadir: /etc/puppet/environments/%{::environment}/hieradata

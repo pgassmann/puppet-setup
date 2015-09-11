@@ -1,0 +1,21 @@
+---
+
+# Owncloud Basic Installation
+# Note: the default virtualhost on Ubuntu 14.04 needs to be manually removed
+# because it has priority 000 instead of 15 as in puppetlabs-apache
+# a2dissite 000-default
+
+classes:
+  - owncloud
+  - 'mysql::server'
+
+mysql::server:
+  override_options:
+    mysqld:
+      bind-address: '0.0.0.0'
+  restart: true,
+  root_password: 'Ecce+jtomug0'
+
+owncloud:
+  db_user: 'owncloud'
+  db_pass: 'if1Ge*uj+Ren0'

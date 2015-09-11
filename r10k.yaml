@@ -1,0 +1,8 @@
+#:cachedir: /var/cache/r10k
+:sources:
+  puppet:
+    remote: "git@github.com:pgassmann/r10k-masterless-poc.git"
+    basedir: /etc/puppet/environments
+    prefix: false
+:git:
+  provider: 'shellgit'
