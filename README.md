@@ -6,6 +6,7 @@ Why?
  * Small flexible system to puppetize servers for example in a home setup environment.
  * Use librarian-puppet to list puppetmodules, but without a Puppetmaster.
  * All the configuration and scripts in one git repository.
+ * Originally I tried to realize it using r10k. https://github.com/pgassmann/r10k-masterless-poc
 
 What
 ----
@@ -31,7 +32,7 @@ Bootstrap
 Run the following commands to setup your server.
 
     apt-get install git -y
-    git clone https://github.com/pgassmann/r10k-masterless-poc.git puppet-setup
+    git clone https://github.com/pgassmann/puppet-setup.git
     cd puppet-setup
     ./setup.sh
     # or
