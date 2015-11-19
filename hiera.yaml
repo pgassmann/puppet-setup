@@ -2,8 +2,8 @@
     - yaml
 :hierarchy:
     - hosts/%{::fqdn}
+    - roles/%{::role}
     - domains/%{::domain}
-    - locations/%{::location}
     - defaults
 :yaml:
    :datadir: /etc/puppet/environments/%{::environment}/hieradata

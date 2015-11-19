@@ -4,27 +4,27 @@ set -x
 dir="$(dirname $(readlink -f $0))"
 cd $dir
 
-# git pull && git submodule update --init
-if [ ! -f Gemfile.lock ]; then
-#first run
+# first run, no bundle commmand
+if ! hash bundle 2>/dev/null;  then
   apt-get update
   apt-get install -y ruby ruby-dev make git
-  gem install bundler
-  bundle install --path=setup/bundle --binstubs=setup/bundlebin
+  gem install bundler --no-ri --no-rdoc
 fi
+
+# Install gems from Gemfile or Gemfile.lock if checked in
+bundle install --path=.bundle --binstubs=bin
 
 # get environment from current git branch
 environment=$(git symbolic-ref --short HEAD)
 
-# ssh wrapper to use custom sshkey for git
-export GIT_SSH="${dir}/setup/git_ssh"
+# create environment
+mkdir -p /etc/puppet/environments/$environment
 
-#fix permissions of ssh private key
-chmod 600 $dir/setup/.ssh/puppet_rsa
+#deploy hieradata
+rsync -av --delete hieradata /etc/puppet/environments/$environment
 
-# deploy Puppetmodules and hieradata
-# deploys from remote git repository!
-setup/bundlebin/r10k deploy environment $environment
+# install modules with librarian-puppet
+./bin/librarian-puppet install --path=/etc/puppet/environments/$environment/modules --verbose
 
 # Run Puppet
-setup/bundlebin/puppet apply --modulepath=/etc/puppet/environments/$environment/modules --hiera_config=hiera.yaml --environment $environment site.pp $@
+./bin/puppet apply --modulepath=/etc/puppet/environments/$environment/modules --hiera_config=hiera.yaml --environment $environment site.pp $@
