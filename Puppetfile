@@ -13,9 +13,12 @@
 #forge "https://forgeapi.puppetlabs.com"
 forge 'http://localhost'
 
-## A module from the Puppet Forge
 mod 'puppetlabs-stdlib',
   :git => 'https://github.com/puppetlabs/puppetlabs-stdlib',
+  :ref => 'master'
+
+mod 'rnelson-hiera_resources',
+  :git => 'https://github.com/rnelson0/puppet-hiera_resources.git',
   :ref => 'master'
 
 ## Owncloud

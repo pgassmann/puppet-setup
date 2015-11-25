@@ -10,5 +10,6 @@ Exec{ path => '/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin' }
 $role = hiera('role', $::custom_role)
 
 node default {
-  hiera_include('classes')
+  hiera_include('classes', [])
+  hiera_resources('additional_resources', {})
 }

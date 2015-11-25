@@ -1,0 +1,22 @@
+classes:
+  - apache
+  - 'apache::mod::php'
+  - 'apache::mod::rewrite'
+  - 'apache::mod::ssl'
+  - 'mysql::bindings'
+
+apache::default_vhost: false
+apache::mpm_module:    'prefork'
+apache::purge_configs: false
+
+mysql::bindings::php_enable: true
+
+# to be able to start, you need to define at least a vhost or a listen address
+#additional_resources:
+#  'apache::listen':
+#    80: {}
+#  #or virtualhost
+#  'apache::vhost':
+#    '%{::fqdn}':
+#      port: 80
+#      docroot: '/var/www/html'

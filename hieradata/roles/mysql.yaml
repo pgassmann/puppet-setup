@@ -1,0 +1,20 @@
+classes:
+  - 'mysql::server'
+
+mysql::server::restart: true,
+mysql::server::root_password: 'TuOt-Rum5+Toot=Iff7'
+
+## Example host.yaml:
+#role: mysql
+#mysql::server::root_password: 'differentRootPassword'
+#mysql::server::override_options:
+#  mysqld:
+#    bind-address: '0.0.0.0'
+#
+#additional_resources:
+#  'mysql::db':
+#    'firstdb':
+#      user:     'firstdb'
+#      host:     '10.1.2.3'
+#      password: 'secure_password'
+#      grant:    'ALL'
