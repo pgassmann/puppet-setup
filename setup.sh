@@ -6,25 +6,33 @@ cd $dir
 
 # first run, no bundle commmand
 if ! hash bundle 2>/dev/null;  then
-  apt-get update
-  apt-get install -y ruby ruby-dev make git
-  gem install bundler --no-ri --no-rdoc
+  if [ -f /etc/redhat-release ]; then
+    yum clean all
+    yum install -y ruby ruby-dev make gcc
+    gem install bundler --no-ri --no-rdoc
+  elif [ -f /etc/debian_version ]; then
+    apt-get update
+    apt-get install -y ruby ruby-dev make git
+    gem install bundler --no-ri --no-rdoc
+  else
+    echo "OS not supported yet"; exit 1
+  fi
 fi
 
 # Install gems from Gemfile or Gemfile.lock if checked in
-bundle install --path=.bundle --binstubs=bin
+bundle install --path=.bundle --binstubs=bin || exit 1
 
 # get environment from current git branch
 environment=$(git symbolic-ref --short HEAD)
 
 # create environment
-mkdir -p /etc/puppet/environments/$environment
+mkdir -p /etc/puppet/environments/$environment || exit 1
 
 #deploy hieradata
-rsync -av --delete hieradata /etc/puppet/environments/$environment
+rsync -av --delete hieradata /etc/puppet/environments/$environment || exit 1
 
 # install modules with librarian-puppet
-./bin/librarian-puppet install --path=/etc/puppet/environments/$environment/modules --verbose
+./bin/librarian-puppet install --path=/etc/puppet/environments/$environment/modules --verbose || exit 1
 
 # Run Puppet
-./bin/puppet apply --modulepath=/etc/puppet/environments/$environment/modules --hiera_config=hiera.yaml --environment $environment site.pp $@
+./bin/puppet apply --modulepath=/etc/puppet/environments/$environment/modules --hiera_config=hiera.yaml --environment $environment site.pp "$@" || exit 1
