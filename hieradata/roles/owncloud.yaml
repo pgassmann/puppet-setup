@@ -8,7 +8,7 @@ classes:
   - owncloud
   - 'mysql::server'
 
-mysql::server::restart: true,
+mysql::server::restart: true
 mysql::server::root_password: 'Ecce+jtomug0'
 
 owncloud::db_user: 'owncloud'
