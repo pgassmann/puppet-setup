@@ -6,4 +6,4 @@
     - domains/%{::domain}
     - defaults
 :yaml:
-   :datadir: /etc/puppet/environments/%{::environment}/hieradata
+   :datadir: ./hieradata

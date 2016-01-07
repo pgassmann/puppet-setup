@@ -25,14 +25,8 @@ bundle install --path=.bundle --binstubs=bin || exit 1
 # get environment from current git branch
 environment=$(git symbolic-ref --short HEAD)
 
-# create environment
-mkdir -p /etc/puppet/environments/$environment || exit 1
-
-#deploy hieradata
-rsync -av --delete hieradata /etc/puppet/environments/$environment || exit 1
-
-# install modules with librarian-puppet
-./bin/librarian-puppet install --path=/etc/puppet/environments/$environment/modules --verbose || exit 1
+# install modules
+./bin/librarian-puppet install --path ./modules --verbose || exit 1
 
 # Run Puppet
-./bin/puppet apply --modulepath=/etc/puppet/environments/$environment/modules --hiera_config=hiera.yaml --environment $environment site.pp "$@" || exit 1
+./bin/puppet apply --modulepath=./modules --hiera_config=hiera.yaml --environment $environment site.pp "$@" || exit 1
